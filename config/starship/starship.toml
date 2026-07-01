@@ -3,70 +3,59 @@
 palette = 'goth'
 add_newline = true
 
-# Modern floating rounded pills — mono / dark goth
+# Connected powerline bar — mono / dark goth (no near-black block)
 format = """
 $os\
 $username\
 $directory\
 $git_branch\
 $git_status\
-$cmd_duration\
 $time\
 $line_break\
 $character"""
 
 [palettes.goth]
-surface0 = '#15151d'
 surface1 = '#23232d'
 surface2 = '#31313d'
 text     = '#c8c8d0'
-subtext  = '#7a7a8c'
+subtext  = '#8a8a9c'
 bone     = '#d6d6de'
 ash      = '#6e6e7e'
 
-# ── pill 1: skull + user (surface1) ──
 [os]
 disabled = false
-format = '[](fg:surface1)[ $symbol ](bg:surface1 fg:bone)'
+format = '[ $symbol ](bg:surface2 fg:bone)'
 [os.symbols]
-Macos = ''
+Macos = ''
 
 [username]
 show_always = true
-style_user = 'bg:surface1 fg:bone'
-style_root = 'bg:surface1 fg:bone'
-format = '[$user ](bg:surface1 fg:bone)[](fg:surface1) '
+style_user = 'bg:surface2 fg:bone'
+style_root = 'bg:surface2 fg:bone'
+format = '[$user ](bg:surface2 fg:bone)[](fg:surface2 bg:surface1)'
 
-# ── pill 2: path (surface0) ──
 [directory]
-format = '[](fg:surface0)[   $path ](bg:surface0 fg:text)[](fg:surface0) '
+format = '[   $path ](bg:surface1 fg:text)[](fg:surface1 bg:surface2)'
 truncation_length = 4
 truncation_symbol = '…/'
 truncate_to_repo = false
-read_only = ' '
-read_only_style = 'bg:surface0 fg:bone'
+read_only = '  '
+read_only_style = 'bg:surface1 fg:bone'
 
-# ── pill 3: git (surface2) ──
 [git_branch]
 symbol = ''
-format = '[](fg:surface2)[ $symbol $branch](bg:surface2 fg:bone)'
+format = '[ $symbol $branch](bg:surface2 fg:bone)'
 
 [git_status]
-format = '[ $all_status$ahead_behind](bg:surface2 fg:bone)[](fg:surface2) '
+format = '[ $all_status$ahead_behind](bg:surface2 fg:bone)'
 style = 'bg:surface2 fg:bone'
 
-# ── pill 4: time (surface1) ──
 [time]
 disabled = false
 time_format = '%H:%M'
-format = '[](fg:surface1)[  $time ](bg:surface1 fg:subtext)[](fg:surface1)'
+format = '[   $time ](bg:surface2 fg:subtext)[](fg:surface2)'
 
-[cmd_duration]
-min_time = 500
-format = '[ 󱎫 $duration ](fg:ash) '
-
-# ── prompt char ──
 [character]
-success_symbol = '[❯](bold fg:ash)'
-error_symbol = '[❯](bold fg:bone)'
-vimcmd_symbol = '[❮](bold fg:bone)'
+success_symbol = '[ ❯](bold fg:ash)'
+error_symbol = '[ ❯](bold fg:bone)'
+vimcmd_symbol = '[ ❮](bold fg:bone)'
