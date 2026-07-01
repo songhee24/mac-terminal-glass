@@ -29,7 +29,7 @@ ash      = '#6e6e7e'
 disabled = false
 format = '[](fg:surface1)[ $symbol ](bg:surface1 fg:bone)'
 [os.symbols]
-Macos = ''
+Macos = ''
 
 [username]
 show_always = true
