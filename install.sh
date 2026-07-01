@@ -21,8 +21,10 @@ link() { # $1 = source in repo, $2 = destination
   [ -e "$2" ] && [ ! -L "$2" ] && mv "$2" "$2.bak" && echo "   backed up $2 -> $2.bak"
   ln -sf "$1" "$2" && echo "   linked $2"
 }
-link "$REPO/config/ghostty/config"        "$HOME/.config/ghostty/config"
-link "$REPO/config/starship/starship.toml" "$HOME/.config/starship.toml"
-link "$REPO/zsh/.zshrc"                    "$HOME/.zshrc"
+mkdir -p "$HOME/.config/fastfetch"
+link "$REPO/config/ghostty/config"           "$HOME/.config/ghostty/config"
+link "$REPO/config/starship/starship.toml"   "$HOME/.config/starship.toml"
+link "$REPO/config/fastfetch/config.jsonc"   "$HOME/.config/fastfetch/config.jsonc"
+link "$REPO/zsh/.zshrc"                       "$HOME/.zshrc"
 
 echo "==> Done. Open Ghostty to enjoy the glass. 🧊"

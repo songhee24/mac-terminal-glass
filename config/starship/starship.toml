@@ -25,7 +25,7 @@ surface1 = '#23232d'
 surface2 = '#31313d'
 text     = '#b6b6c2'
 subtext  = '#5a5a6c'
-blood    = '#9a3b48'
+bone     = '#c8c8d0'
 ash      = '#6e6e7e'
 
 [fill]
@@ -34,7 +34,7 @@ symbol = ' '
 [os]
 disabled = false
 format = '[ $symbol ]($style)'
-style = 'fg:subtext bg:surface0'
+style = 'fg:bone bg:surface0'
 [os.symbols]
 Macos = ''
 
@@ -44,16 +44,16 @@ style = 'fg:text bg:surface0'
 truncation_length = 3
 truncation_symbol = '…/'
 read_only = ' '
-read_only_style = 'fg:blood bg:surface0'
+read_only_style = 'fg:bone bg:surface0'
 
 [git_branch]
 symbol = ''
 format = '[ $symbol $branch ]($style)'
-style = 'fg:blood bg:surface1'
+style = 'fg:bone bg:surface1'
 
 [git_status]
 format = '[$all_status$ahead_behind ]($style)'
-style = 'fg:blood bg:surface1'
+style = 'fg:bone bg:surface1'
 
 [time]
 disabled = false
@@ -68,5 +68,5 @@ style = 'fg:ash'
 
 [character]
 success_symbol = '[ ❯](bold fg:ash)'
-error_symbol = '[ ❯](bold fg:blood)'
-vimcmd_symbol = '[ ❮](bold fg:blood)'
+error_symbol = '[ ❯](bold fg:bone)'
+vimcmd_symbol = '[ ❮](bold fg:bone)'
