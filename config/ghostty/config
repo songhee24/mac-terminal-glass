@@ -1,0 +1,30 @@
+# Ghostty — glassmorphism setup (Catppuccin Mocha)
+# Mirrors the Windows Terminal "glass" look: frosted acrylic + JetBrainsMono Nerd Font
+
+# --- Theme / colors ---
+theme = Catppuccin Mocha
+
+# --- Font ---
+font-family = JetBrainsMono Nerd Font Mono
+font-size = 14
+font-thicken = true
+
+# --- Glass (transparency + blur) ---
+background-opacity = 0.82
+background-blur-radius = 20
+
+# --- Cursor ---
+cursor-style = bar
+cursor-style-blink = true
+
+# --- Window / spacing ---
+window-padding-x = 14
+window-padding-y = 12
+window-padding-balance = true
+macos-titlebar-style = transparent
+mouse-hide-while-typing = true
+
+# --- Behavior ---
+copy-on-select = clipboard
+confirm-close-surface = false
+window-save-state = always
