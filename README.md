@@ -1,5 +1,8 @@
 # mac-terminal-glass 🧊
 
+<img width="1440" height="900" alt="Screenshot 2026-07-03 at 21 11 58" src="https://github.com/user-attachments/assets/218af665-8589-47e4-af2e-746d6274b20a" />
+
+
 Glassmorphism terminal setup for macOS — the counterpart to
 [windows-terminal-glass](https://github.com/songhee24/windows-terminal-glass).
 
