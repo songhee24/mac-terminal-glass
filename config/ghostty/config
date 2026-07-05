@@ -22,9 +22,23 @@ window-padding-x = 14
 window-padding-y = 12
 window-padding-balance = true
 macos-titlebar-style = transparent
+macos-non-native-fullscreen = visible-menu
 mouse-hide-while-typing = true
 
 # --- Behavior ---
 copy-on-select = clipboard
 confirm-close-surface = false
 window-save-state = always
+
+# --- macOS-style text editing (match other Mac apps) ---
+# Word navigation: Option + ←/→
+keybind = alt+left=esc:b
+keybind = alt+right=esc:f
+# Line navigation: Cmd + ←/→
+keybind = cmd+left=text:\x01
+keybind = cmd+right=text:\x05
+# Delete word (Option+Delete) / delete line (Cmd+Delete)
+keybind = alt+backspace=text:\x1b\x7f
+keybind = cmd+backspace=text:\x15
+# Undo (Cmd+Z)
+keybind = cmd+z=text:\x1f
