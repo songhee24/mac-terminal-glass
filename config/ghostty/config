@@ -42,3 +42,8 @@ keybind = alt+backspace=text:\x1b\x7f
 keybind = cmd+backspace=text:\x15
 # Undo (Cmd+Z)
 keybind = cmd+z=text:\x1f
+
+# --- Tab navigation (Cmd+Option+←/→) ---
+# Cmd+←/→ is line-nav above, so use Cmd+Option for prev/next tab.
+keybind = cmd+alt+left=previous_tab
+keybind = cmd+alt+right=next_tab
