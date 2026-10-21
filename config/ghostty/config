@@ -2,7 +2,8 @@
 # Mirrors the Windows Terminal "glass" look: frosted acrylic + JetBrainsMono Nerd Font
 
 # --- Theme / colors ---
-theme = Catppuccin Mocha
+# 2026-10-21 <- was: theme = Catppuccin Mocha (dark) + background-opacity = 0.82. Restore: swap both back.
+theme = Catppuccin Latte
 
 # --- Font ---
 font-family = JetBrainsMono Nerd Font Mono
@@ -10,7 +11,7 @@ font-size = 14
 font-thicken = true
 
 # --- Glass (transparency + blur) ---
-background-opacity = 0.82
+background-opacity = 0.88
 background-blur-radius = 20
 
 # --- Cursor ---
@@ -31,10 +32,10 @@ confirm-close-surface = false
 window-save-state = always
 
 # --- macOS-style text editing (match other Mac apps) ---
-# Word navigation: Option + ←/→
+# Word navigation: Option + <-/→
 keybind = alt+left=esc:b
 keybind = alt+right=esc:f
-# Line navigation: Cmd + ←/→
+# Line navigation: Cmd + <-/→
 keybind = cmd+left=text:\x01
 keybind = cmd+right=text:\x05
 # Delete word (Option+Delete) / delete line (Cmd+Delete)
@@ -43,7 +44,7 @@ keybind = cmd+backspace=text:\x15
 # Undo (Cmd+Z)
 keybind = cmd+z=text:\x1f
 
-# --- Tab navigation (Cmd+Option+←/→) ---
-# Cmd+←/→ is line-nav above, so use Cmd+Option for prev/next tab.
+# --- Tab navigation (Cmd+Option+<-/→) ---
+# Cmd+<-/→ is line-nav above, so use Cmd+Option for prev/next tab.
 keybind = cmd+alt+left=previous_tab
 keybind = cmd+alt+right=next_tab
