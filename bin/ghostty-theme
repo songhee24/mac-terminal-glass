@@ -1,21 +1,37 @@
 #!/bin/bash
-# ghostty-theme - switch the glass Ghostty between light and dark (2026-10-21, Akara: "i wanna command to switch
-# between light and dark"). Edits the theme + opacity lines in config/ghostty/config, then reloads Ghostty
-# through its menu (Ghostty > Reload Configuration) - a new window alone does not reload.
-#   ghostty-theme light | dark | toggle (default) | status
+# ghostty-theme - the glass Ghostty in light, dark, or following macOS (2026-10-21, Akara: "i wanna command to switch
+# between light and dark" / "add please logic to follow terminal mac os auto theme"). Edits the theme, opacity and
+# faint-opacity lines in config/ghostty/config, then reloads Ghostty through its menu (Ghostty > Reload Configuration)
+# - a new window alone does not reload.
+#   ghostty-theme auto | light | dark | toggle (light <-> dark) | status
 set -eu
 CONFIG="$(cd "$(dirname "$(readlink -f "$0")")/.." && pwd)/config/ghostty/config"
-# 2026-10-21: light was 0.88 opacity / default faint 0.5; Akara: "more glassy" + dim text "hard to read"
-LIGHT_THEME="Catppuccin Latte"; LIGHT_OPACITY=0.76; LIGHT_FAINT=0.85   # dim (faint) text needs more ink on light glass
-DARK_THEME="Catppuccin Mocha";  DARK_OPACITY=0.82; DARK_FAINT=0.5     # Ghostty default
+# 2026-10-21 <- light was 0.76 opacity for a few minutes; Akara: "bring back ... hard to read" -> 0.88 again.
+# faint-opacity 0.85 in light: dim text (Claude Code's grey lines) was washed out at Ghostty's default 0.5.
+LIGHT_THEME="Catppuccin Latte"; LIGHT_OPACITY=0.88; LIGHT_FAINT=0.85
+DARK_THEME="Catppuccin Mocha";  DARK_OPACITY=0.82; DARK_FAINT=0.5     # Ghostty's default faint
+# auto: Ghostty switches the theme with macOS by itself; opacity and faint cannot follow, so it takes light's readable
+# values (dark is then a little less see-through than in dark mode).
+AUTO_THEME="light:$LIGHT_THEME,dark:$DARK_THEME"; AUTO_OPACITY=$LIGHT_OPACITY; AUTO_FAINT=$LIGHT_FAINT
 
-current() { grep -q "^theme = $LIGHT_THEME\$" "$CONFIG" && echo light || echo dark; }
+current() {
+  case "$(sed -n 's/^theme = //p' "$CONFIG")" in
+    "$AUTO_THEME") echo auto ;;
+    "$LIGHT_THEME") echo light ;;
+    *) echo dark ;;
+  esac
+}
 
-set_mode() {   # light|dark
+set_mode() {   # auto|light|dark
   local theme opacity faint
-  if [ "$1" = light ]; then theme=$LIGHT_THEME; opacity=$LIGHT_OPACITY; faint=$LIGHT_FAINT; else theme=$DARK_THEME; opacity=$DARK_OPACITY; faint=$DARK_FAINT; fi
-  perl -pi -e "s/^theme = .*\$/theme = $theme/; s/^background-opacity = .*\$/background-opacity = $opacity/; s/^faint-opacity = .*\$/faint-opacity = $faint/" "$CONFIG"
-  # 2026-10-21: reload through the menu (System Events), so the switch shows at once; a new window is not a reload.
+  case "$1" in
+    auto)  theme=$AUTO_THEME;  opacity=$AUTO_OPACITY;  faint=$AUTO_FAINT ;;
+    light) theme=$LIGHT_THEME; opacity=$LIGHT_OPACITY; faint=$LIGHT_FAINT ;;
+    dark)  theme=$DARK_THEME;  opacity=$DARK_OPACITY;  faint=$DARK_FAINT ;;
+  esac
+  THEME="$theme" OPACITY="$opacity" FAINT="$faint" perl -pi -e \
+    's/^theme = .*$/theme = $ENV{THEME}/; s/^background-opacity = .*$/background-opacity = $ENV{OPACITY}/; s/^faint-opacity = .*$/faint-opacity = $ENV{FAINT}/' "$CONFIG"
+  # Reload through the menu (System Events), so the switch shows at once.
   if osascript -e 'tell application "System Events" to tell process "Ghostty" to click menu item "Reload Configuration" of menu 1 of menu bar item "Ghostty" of menu bar 1' >/dev/null 2>&1; then
     echo "Ghostty: $1 ($theme, opacity $opacity), reloaded."
   else
@@ -24,8 +40,8 @@ set_mode() {   # light|dark
 }
 
 case "${1:-toggle}" in
-  light|dark) set_mode "$1" ;;
+  auto|light|dark) set_mode "$1" ;;
   toggle) if [ "$(current)" = light ]; then set_mode dark; else set_mode light; fi ;;
   status) echo "Ghostty: $(current)" ;;
-  *) echo "usage: ghostty-theme [light|dark|toggle|status]" >&2; exit 2 ;;
+  *) echo "usage: ghostty-theme [auto|light|dark|toggle|status]" >&2; exit 2 ;;
 esac

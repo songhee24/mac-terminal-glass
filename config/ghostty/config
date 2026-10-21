@@ -3,7 +3,7 @@
 
 # --- Theme / colors ---
 # 2026-10-21 <- was: theme = Catppuccin Mocha (dark) + background-opacity = 0.82. Restore: swap both back.
-theme = Catppuccin Latte
+theme = light:Catppuccin Latte,dark:Catppuccin Mocha
 
 # --- Font ---
 font-family = JetBrainsMono Nerd Font Mono
@@ -11,7 +11,7 @@ font-size = 14
 font-thicken = true
 
 # --- Glass (transparency + blur) ---
-background-opacity = 0.76
+background-opacity = 0.88
 background-blur-radius = 20
 faint-opacity = 0.85
 
