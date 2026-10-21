@@ -11,8 +11,9 @@ font-size = 14
 font-thicken = true
 
 # --- Glass (transparency + blur) ---
-background-opacity = 0.88
+background-opacity = 0.76
 background-blur-radius = 20
+faint-opacity = 0.85
 
 # --- Cursor ---
 cursor-style = bar

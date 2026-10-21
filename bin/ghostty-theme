@@ -5,15 +5,16 @@
 #   ghostty-theme light | dark | toggle (default) | status
 set -eu
 CONFIG="$(cd "$(dirname "$(readlink -f "$0")")/.." && pwd)/config/ghostty/config"
-LIGHT_THEME="Catppuccin Latte"; LIGHT_OPACITY=0.88   # a light background needs a bit more opacity to stay readable
-DARK_THEME="Catppuccin Mocha";  DARK_OPACITY=0.82
+# 2026-10-21: light was 0.88 opacity / default faint 0.5; Akara: "more glassy" + dim text "hard to read"
+LIGHT_THEME="Catppuccin Latte"; LIGHT_OPACITY=0.76; LIGHT_FAINT=0.85   # dim (faint) text needs more ink on light glass
+DARK_THEME="Catppuccin Mocha";  DARK_OPACITY=0.82; DARK_FAINT=0.5     # Ghostty default
 
 current() { grep -q "^theme = $LIGHT_THEME\$" "$CONFIG" && echo light || echo dark; }
 
 set_mode() {   # light|dark
-  local theme opacity
-  if [ "$1" = light ]; then theme=$LIGHT_THEME; opacity=$LIGHT_OPACITY; else theme=$DARK_THEME; opacity=$DARK_OPACITY; fi
-  perl -pi -e "s/^theme = .*\$/theme = $theme/; s/^background-opacity = .*\$/background-opacity = $opacity/" "$CONFIG"
+  local theme opacity faint
+  if [ "$1" = light ]; then theme=$LIGHT_THEME; opacity=$LIGHT_OPACITY; faint=$LIGHT_FAINT; else theme=$DARK_THEME; opacity=$DARK_OPACITY; faint=$DARK_FAINT; fi
+  perl -pi -e "s/^theme = .*\$/theme = $theme/; s/^background-opacity = .*\$/background-opacity = $opacity/; s/^faint-opacity = .*\$/faint-opacity = $faint/" "$CONFIG"
   # 2026-10-21: reload through the menu (System Events), so the switch shows at once; a new window is not a reload.
   if osascript -e 'tell application "System Events" to tell process "Ghostty" to click menu item "Reload Configuration" of menu 1 of menu bar item "Ghostty" of menu bar 1' >/dev/null 2>&1; then
     echo "Ghostty: $1 ($theme, opacity $opacity), reloaded."
