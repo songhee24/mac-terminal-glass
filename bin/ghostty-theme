@@ -1,7 +1,7 @@
 #!/bin/bash
 # ghostty-theme - switch the glass Ghostty between light and dark (2026-10-21, Akara: "i wanna command to switch
-# between light and dark"). Edits the theme + opacity lines in config/ghostty/config; Ghostty picks it up after
-# Ghostty > Reload Configuration, or a restart.
+# between light and dark"). Edits the theme + opacity lines in config/ghostty/config, then reloads Ghostty
+# through its menu (Ghostty > Reload Configuration) - a new window alone does not reload.
 #   ghostty-theme light | dark | toggle (default) | status
 set -eu
 CONFIG="$(cd "$(dirname "$(readlink -f "$0")")/.." && pwd)/config/ghostty/config"
@@ -14,7 +14,12 @@ set_mode() {   # light|dark
   local theme opacity
   if [ "$1" = light ]; then theme=$LIGHT_THEME; opacity=$LIGHT_OPACITY; else theme=$DARK_THEME; opacity=$DARK_OPACITY; fi
   perl -pi -e "s/^theme = .*\$/theme = $theme/; s/^background-opacity = .*\$/background-opacity = $opacity/" "$CONFIG"
-  echo "Ghostty: $1 ($theme, opacity $opacity). Apply: Ghostty > Reload Configuration, or restart Ghostty."
+  # 2026-10-21: reload through the menu (System Events), so the switch shows at once; a new window is not a reload.
+  if osascript -e 'tell application "System Events" to tell process "Ghostty" to click menu item "Reload Configuration" of menu 1 of menu bar item "Ghostty" of menu bar 1' >/dev/null 2>&1; then
+    echo "Ghostty: $1 ($theme, opacity $opacity), reloaded."
+  else
+    echo "Ghostty: $1 ($theme, opacity $opacity). Apply: Ghostty > Reload Configuration (or quit with Cmd+Q and reopen)."
+  fi
 }
 
 case "${1:-toggle}" in
