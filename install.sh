@@ -26,5 +26,7 @@ link "$REPO/config/ghostty/config"           "$HOME/.config/ghostty/config"
 link "$REPO/config/starship/starship.toml"   "$HOME/.config/starship.toml"
 link "$REPO/config/fastfetch/config.jsonc"   "$HOME/.config/fastfetch/config.jsonc"
 link "$REPO/zsh/.zshrc"                       "$HOME/.zshrc"
+mkdir -p "$HOME/bin"
+link "$REPO/bin/ghostty-theme"               "$HOME/bin/ghostty-theme"   # 2026-10-21: light/dark switch
 
 echo "==> Done. Open Ghostty to enjoy the glass. 🧊"
