@@ -1,0 +1,25 @@
+#!/bin/bash
+# ghostty-theme - switch the glass Ghostty between light and dark (2026-10-21, Akara: "i wanna command to switch
+# between light and dark"). Edits the theme + opacity lines in config/ghostty/config; Ghostty picks it up after
+# Ghostty > Reload Configuration, or a restart.
+#   ghostty-theme light | dark | toggle (default) | status
+set -eu
+CONFIG="$(cd "$(dirname "$(readlink -f "$0")")/.." && pwd)/config/ghostty/config"
+LIGHT_THEME="Catppuccin Latte"; LIGHT_OPACITY=0.88   # a light background needs a bit more opacity to stay readable
+DARK_THEME="Catppuccin Mocha";  DARK_OPACITY=0.82
+
+current() { grep -q "^theme = $LIGHT_THEME\$" "$CONFIG" && echo light || echo dark; }
+
+set_mode() {   # light|dark
+  local theme opacity
+  if [ "$1" = light ]; then theme=$LIGHT_THEME; opacity=$LIGHT_OPACITY; else theme=$DARK_THEME; opacity=$DARK_OPACITY; fi
+  perl -pi -e "s/^theme = .*\$/theme = $theme/; s/^background-opacity = .*\$/background-opacity = $opacity/" "$CONFIG"
+  echo "Ghostty: $1 ($theme, opacity $opacity). Apply: Ghostty > Reload Configuration, or restart Ghostty."
+}
+
+case "${1:-toggle}" in
+  light|dark) set_mode "$1" ;;
+  toggle) if [ "$(current)" = light ]; then set_mode dark; else set_mode light; fi ;;
+  status) echo "Ghostty: $(current)" ;;
+  *) echo "usage: ghostty-theme [light|dark|toggle|status]" >&2; exit 2 ;;
+esac
